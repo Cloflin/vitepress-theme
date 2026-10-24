@@ -1,0 +1,56 @@
+{
+  "name": "@cloflin/vitepress-theme",
+  "version": "0.1.0",
+  "description": "An animated VitePress theme: spring-driven sidebar, sliding table of contents, command-menu search, circular theme reveal.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./vite": "./src/vite.ts",
+    "./style.css": "./src/styles/index.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "NOTICE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "verify": "npm run typecheck && npm test && npm run docs:build"
+  },
+  "peerDependencies": {
+    "vitepress": "^2.0.0-alpha.16",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@lucide/vue": "^1.61.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@vueuse/core": "^15.0.0",
+    "minisearch": "^7.2.0",
+    "motion-v": "^2.8.0",
+    "reka-ui": "^2.11.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^2.5.1",
+    "happy-dom": "^21.0.4",
+    "typescript": "^5.9.3",
+    "vitepress": "2.0.0-alpha.20",
+    "vitest": "^5.0.5",
+    "vue": "^3.5.44",
+    "vue-tsc": "^3.3.13"
+  }
+}

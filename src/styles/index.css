@@ -1,0 +1,390 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter/index.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource-variable/geist-mono/index.css';
+
+/* Tailwind skips node_modules when it scans; name the theme's own sources. */
+@source '../**/*.{vue,ts}';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Palette. Neutral greys plus one accent, after unlumen UI Docs. A site
+ * re-brands the whole theme by overriding `--cf-accent` (and, if it wants,
+ * `--cf-accent-dark`) — links, the active sidebar bar, list markers, the
+ * "new" dot and the selection tint all read it.
+ */
+:root {
+  --cf-accent: #f12e54;
+  --cf-background: oklch(1 0 0);
+  --cf-foreground: #333333;
+  --cf-surface: #f7f7f7;
+  --cf-muted: #f7f7f7;
+  --cf-muted-foreground: oklch(0.556 0 0);
+  --cf-accent-bg: oklch(0.95 0 0);
+  --cf-border: oklch(0.94 0 0);
+  --cf-input: oklch(0.922 0 0);
+  --cf-ring: oklch(0.708 0 0);
+  --cf-primary: #333333;
+  --cf-primary-foreground: oklch(0.985 0 0);
+  --cf-popover: oklch(1 0 0);
+  --cf-callout-info: oklch(0.62 0.17 255);
+  --cf-callout-warn: oklch(0.72 0.16 70);
+  --cf-callout-danger: oklch(0.6 0.2 25);
+  --cf-callout-tip: oklch(0.65 0.15 155);
+  --cf-radius: 0.625rem;
+  --cf-nav-height: 4rem;
+}
+
+.dark {
+  --cf-accent: var(--cf-accent-dark, #f12e54);
+  --cf-background: #121212;
+  --cf-foreground: #e5e5e5;
+  --cf-surface: hsl(0 0% 9%);
+  --cf-muted: oklch(0.269 0 0);
+  --cf-muted-foreground: oklch(0.708 0 0);
+  --cf-accent-bg: #232323;
+  --cf-border: oklch(1 0 0 / 10%);
+  --cf-input: oklch(1 0 0 / 15%);
+  --cf-ring: oklch(0.556 0 0);
+  --cf-primary: oklch(0.922 0 0);
+  --cf-primary-foreground: oklch(0.205 0 0);
+  --cf-popover: #1a1a1a;
+}
+
+@theme inline {
+  --color-background: var(--cf-background);
+  --color-foreground: var(--cf-foreground);
+  --color-surface: var(--cf-surface);
+  --color-muted: var(--cf-muted);
+  --color-muted-foreground: var(--cf-muted-foreground);
+  --color-accent: var(--cf-accent-bg);
+  --color-brand: var(--cf-accent);
+  --color-border: var(--cf-border);
+  --color-input: var(--cf-input);
+  --color-ring: var(--cf-ring);
+  --color-primary: var(--cf-primary);
+  --color-primary-foreground: var(--cf-primary-foreground);
+  --color-popover: var(--cf-popover);
+
+  --radius-sm: calc(var(--cf-radius) - 4px);
+  --radius-md: calc(var(--cf-radius) - 2px);
+  --radius-lg: var(--cf-radius);
+  --radius-xl: calc(var(--cf-radius) + 4px);
+
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --breakpoint-3xl: 1670px;
+}
+
+@layer base {
+  * {
+    border-color: var(--cf-border);
+    outline-color: color-mix(in oklab, var(--cf-ring) 50%, transparent);
+  }
+
+  html {
+    scroll-padding-top: calc(var(--cf-nav-height) + 2rem);
+  }
+
+  body {
+    background: var(--cf-background);
+    color: var(--cf-foreground);
+    font-family: var(--font-sans);
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--cf-accent) 25%, transparent);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cf-border) transparent;
+  }
+}
+
+/* ── Theme flip: circular reveal from the click point ─────────────────── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%));
+  animation: cf-vt-reveal 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  z-index: 9999;
+  will-change: clip-path;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+@keyframes cf-vt-reveal {
+  to {
+    clip-path: circle(var(--vt-r, 100vmax) at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}
+
+/* ── Markdown content ──────────────────────────────────────────────────── */
+@layer components {
+  .cf-doc {
+    font-size: 1.125rem;
+    line-height: 1.625;
+  }
+
+  .cf-doc h1 {
+    @apply mt-10 mb-6 text-4xl leading-none font-medium tracking-tight;
+  }
+  .cf-doc h2 {
+    @apply mt-11 mb-4 text-2xl leading-tight font-normal tracking-tight;
+  }
+  .cf-doc h3 {
+    @apply mt-8 mb-3 text-xl font-normal;
+  }
+  .cf-doc h4,
+  .cf-doc h5,
+  .cf-doc h6 {
+    @apply mt-6 mb-2 text-lg font-medium;
+  }
+  .cf-doc :is(h1, h2, h3, h4, h5, h6) {
+    position: relative;
+    scroll-margin-top: calc(var(--cf-nav-height) + 3rem);
+  }
+
+  .cf-doc .header-anchor {
+    @apply absolute -left-5 font-normal opacity-0 transition-opacity select-none;
+    color: var(--cf-muted-foreground);
+    text-decoration: none;
+  }
+  .cf-doc :is(h1, h2, h3, h4, h5, h6):hover .header-anchor,
+  .cf-doc .header-anchor:focus-visible {
+    opacity: 1;
+  }
+
+  .cf-doc p {
+    @apply my-4 max-w-prose tracking-[-0.022em];
+    color: color-mix(in oklab, var(--cf-foreground) 85%, transparent);
+  }
+
+  .cf-doc ul,
+  .cf-doc ol {
+    @apply my-4 flex max-w-prose flex-col gap-2 pl-5;
+    color: color-mix(in oklab, var(--cf-foreground) 80%, transparent);
+  }
+  .cf-doc ul {
+    list-style: disc;
+  }
+  .cf-doc ol {
+    list-style: decimal;
+  }
+  .cf-doc li > :is(ul, ol) {
+    @apply my-1;
+  }
+  .cf-doc li::marker {
+    color: var(--cf-accent);
+  }
+
+  .cf-doc a:not(.header-anchor) {
+    color: var(--cf-accent);
+    text-underline-offset: 4px;
+    text-decoration-color: var(--cf-accent);
+    text-decoration-line: none;
+    transition: color 0.15s;
+  }
+  .cf-doc a:not(.header-anchor):hover {
+    text-decoration-line: underline;
+  }
+
+  .cf-doc strong {
+    @apply font-semibold;
+    color: var(--cf-foreground);
+  }
+
+  .cf-doc hr {
+    @apply my-10 border-t;
+  }
+
+  .cf-doc blockquote {
+    @apply my-6 border-l-2 pl-4 italic;
+    color: var(--cf-muted-foreground);
+  }
+
+  .cf-doc img {
+    @apply my-6 rounded-xl;
+  }
+
+  .cf-doc table {
+    @apply my-6 block w-full overflow-x-auto rounded-lg text-left text-sm;
+    background: var(--cf-surface);
+    border-collapse: collapse;
+  }
+  .cf-doc thead {
+    @apply border-b;
+  }
+  .cf-doc tbody tr + tr {
+    @apply border-t;
+  }
+  .cf-doc th {
+    @apply px-4 py-2.5 align-top font-normal;
+    color: var(--cf-muted-foreground);
+  }
+  .cf-doc td {
+    @apply px-4 py-2.5 align-top leading-relaxed;
+    color: color-mix(in oklab, var(--cf-foreground) 80%, transparent);
+  }
+
+  /* Inline code */
+  .cf-doc :not(pre) > code {
+    @apply rounded-md px-1.5 py-0.5 font-mono text-[0.85em];
+    background: var(--cf-accent-bg);
+    color: var(--cf-foreground);
+  }
+  .cf-doc a > code {
+    color: inherit;
+  }
+
+  /* ── Code blocks (Shiki, dual theme) ─────────────────────────────────── */
+  .cf-doc div[class*='language-'] {
+    @apply relative my-5 overflow-hidden rounded-xl border;
+    background: var(--cf-surface);
+  }
+  .cf-doc div[class*='language-'] pre {
+    @apply m-0 overflow-x-auto bg-transparent px-4 py-3.5 font-mono text-sm leading-relaxed;
+  }
+  .cf-doc div[class*='language-'] code {
+    @apply block w-fit min-w-full font-mono;
+  }
+  .cf-doc .shiki span {
+    color: var(--shiki-light);
+  }
+  .dark .cf-doc .shiki span {
+    color: var(--shiki-dark);
+  }
+  .cf-doc div[class*='language-'] > span.lang {
+    @apply absolute top-2.5 right-12 font-mono text-xs opacity-0 transition-opacity select-none;
+    color: var(--cf-muted-foreground);
+  }
+  .cf-doc div[class*='language-']:hover > span.lang {
+    opacity: 1;
+  }
+  .cf-doc div[class*='language-'] .highlighted {
+    @apply -mx-4 inline-block w-[calc(100%+2rem)] px-4;
+    background: color-mix(in oklab, var(--cf-accent) 9%, transparent);
+  }
+  .cf-doc div[class*='language-'] .diff.add {
+    background: color-mix(in oklab, oklch(0.65 0.15 155) 14%, transparent);
+  }
+  .cf-doc div[class*='language-'] .diff.remove {
+    background: color-mix(in oklab, oklch(0.6 0.2 25) 14%, transparent);
+    opacity: 0.7;
+  }
+  .cf-doc div[class*='language-'] .diff {
+    @apply -mx-4 inline-block w-[calc(100%+2rem)] px-4;
+  }
+
+  /* VitePress's own copy button: the click handler lives in its client core. */
+  .cf-doc div[class*='language-'] > button.copy {
+    @apply absolute top-2 right-2 z-10 size-7 cursor-pointer rounded-md opacity-0 transition-all;
+    background: var(--cf-accent-bg) no-repeat center / 14px;
+    background-image: var(--cf-icon-copy);
+  }
+  .cf-doc div[class*='language-']:hover > button.copy,
+  .cf-doc div[class*='language-'] > button.copy:focus-visible {
+    opacity: 1;
+  }
+  .cf-doc div[class*='language-'] > button.copy.copied {
+    opacity: 1;
+    background-image: var(--cf-icon-check);
+  }
+
+  /* Code groups: the tab switching lives in VitePress's client core. */
+  .cf-doc .vp-code-group {
+    @apply my-5 overflow-hidden rounded-xl border;
+    background: var(--cf-surface);
+  }
+  .cf-doc .vp-code-group .tabs {
+    @apply flex gap-1 border-b px-2 py-1.5;
+  }
+  .cf-doc .vp-code-group .tabs input {
+    @apply sr-only;
+  }
+  .cf-doc .vp-code-group .tabs label {
+    @apply cursor-pointer rounded-md px-3 py-1 text-sm transition-colors;
+    color: var(--cf-muted-foreground);
+  }
+  .cf-doc .vp-code-group .tabs input:checked + label {
+    background: var(--cf-accent-bg);
+    color: var(--cf-foreground);
+  }
+  .cf-doc .vp-code-group div[class*='language-'] {
+    @apply my-0 rounded-none border-0;
+  }
+  .cf-doc .vp-code-group .blocks > div[class*='language-']:not(.active) {
+    display: none;
+  }
+
+  /* ── Callouts (::: tip / info / warning / danger / details) ──────────── */
+  .cf-doc .custom-block {
+    --cf-callout: var(--cf-callout-info);
+    @apply my-6 rounded-xl border px-5 py-4 text-base;
+    border-color: color-mix(in oklab, var(--cf-callout) 25%, transparent);
+    background: color-mix(in oklab, var(--cf-callout) 6%, transparent);
+  }
+  .cf-doc .custom-block.tip {
+    --cf-callout: var(--cf-callout-tip);
+  }
+  .cf-doc .custom-block.warning {
+    --cf-callout: var(--cf-callout-warn);
+  }
+  .cf-doc .custom-block.danger,
+  .cf-doc .custom-block.caution {
+    --cf-callout: var(--cf-callout-danger);
+  }
+  .cf-doc .custom-block.details {
+    --cf-callout: var(--cf-muted-foreground);
+  }
+  .cf-doc .custom-block p {
+    @apply my-2 text-base;
+  }
+  .cf-doc .custom-block .custom-block-title {
+    @apply mt-0 mb-1 flex items-center gap-2 font-medium;
+    color: var(--cf-foreground);
+  }
+  .cf-doc .custom-block .custom-block-title::before {
+    content: '';
+    @apply inline-block size-4 shrink-0;
+    background: var(--cf-callout);
+    mask: var(--cf-icon-info) no-repeat center / contain;
+  }
+  .cf-doc .custom-block.warning .custom-block-title::before,
+  .cf-doc .custom-block.danger .custom-block-title::before {
+    mask-image: var(--cf-icon-alert);
+  }
+  .cf-doc .custom-block details summary {
+    @apply cursor-pointer font-medium;
+  }
+  .cf-doc .custom-block div[class*='language-'] {
+    @apply my-3;
+  }
+
+  /* GitHub-flavoured alerts render as `.custom-block.github-alert`. */
+  .cf-doc .custom-block.github-alert.note {
+    --cf-callout: var(--cf-callout-info);
+  }
+  .cf-doc .custom-block.github-alert.important {
+    --cf-callout: oklch(0.6 0.18 300);
+  }
+}
+
+:root {
+  --cf-icon-copy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Crect width='14' height='14' x='8' y='8' rx='2'/%3E%3Cpath d='M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2'/%3E%3C/svg%3E");
+  --cf-icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  --cf-icon-info: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E");
+  --cf-icon-alert: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3C/svg%3E");
+}
