@@ -309,18 +309,26 @@
     background: var(--cf-surface);
   }
   .cf-doc .vp-code-group .tabs {
-    @apply flex gap-1 border-b px-2 py-1.5;
+    @apply relative flex gap-1 border-b px-2 py-1.5;
+  }
+  /* The sliding background behind the selected tab; placed by code-groups.ts. */
+  .cf-doc .vp-code-group .tabs > .cf-tab-pill {
+    @apply pointer-events-none absolute left-0 z-0 rounded-md;
+    background: var(--cf-accent-bg);
   }
   .cf-doc .vp-code-group .tabs input {
     @apply sr-only;
   }
   .cf-doc .vp-code-group .tabs label {
-    @apply cursor-pointer rounded-md px-3 py-1 text-sm transition-colors;
+    @apply relative z-[1] cursor-pointer rounded-md px-3 py-1 text-sm transition-colors;
     color: var(--cf-muted-foreground);
   }
+  .cf-doc .vp-code-group .tabs label:hover,
   .cf-doc .vp-code-group .tabs input:checked + label {
-    background: var(--cf-accent-bg);
     color: var(--cf-foreground);
+  }
+  .cf-doc .vp-code-group .tabs input:focus-visible + label {
+    @apply ring-2 ring-ring;
   }
   .cf-doc .vp-code-group div[class*='language-'] {
     @apply my-0 rounded-none border-0;

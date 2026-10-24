@@ -21,6 +21,7 @@ import { useSidebar } from '../composables/sidebar'
 import { useSearchHotkey, useThemeHotkey } from '../composables/search'
 import { useThemeTransition } from '../composables/theme-transition'
 import { REDUCED_MOTION, useMotionMode } from '../composables/motion'
+import { useCodeGroupPills } from '../composables/code-groups'
 import NavBar from './NavBar.vue'
 import Sidebar from './Sidebar.vue'
 import DocPage from './DocPage.vue'
@@ -48,6 +49,7 @@ if (typeof document !== 'undefined') {
 }
 
 useSearchHotkey()
+useCodeGroupPills()
 useThemeHotkey(toggle)
 
 const layout = computed(() => (page.value.isNotFound ? '404' : (frontmatter.value.layout ?? 'doc')))
