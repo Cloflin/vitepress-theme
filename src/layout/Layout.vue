@@ -13,13 +13,14 @@
  * `sidebar-nav-after`, `doc-top`, `doc-before`, `doc-after`, `aside-top`,
  * `aside-bottom`, `home`, `not-found`.
  */
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, ref, watch, watchEffect } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { MotionConfig } from 'motion-v'
 import { useScrollLock } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useSearchHotkey, useThemeHotkey } from '../composables/search'
 import { useThemeTransition } from '../composables/theme-transition'
+import { REDUCED_MOTION, useMotionMode } from '../composables/motion'
 import NavBar from './NavBar.vue'
 import Sidebar from './Sidebar.vue'
 import DocPage from './DocPage.vue'
@@ -39,6 +40,13 @@ const route = useRoute()
 const { hasSidebar } = useSidebar()
 const { toggle } = useThemeTransition()
 
+const motionMode = useMotionMode()
+// Mirrored onto <html> for the CSS keyframe animations (the search dialog is
+// portalled out of this tree, so a wrapper attribute would not reach it).
+if (typeof document !== 'undefined') {
+  watchEffect(() => (document.documentElement.dataset.cfMotion = motionMode.value))
+}
+
 useSearchHotkey()
 useThemeHotkey(toggle)
 
@@ -53,7 +61,7 @@ watch(() => route.path, () => (menuOpen.value = false))
 </script>
 
 <template>
-  <MotionConfig reduced-motion="user">
+  <MotionConfig :reduced-motion="REDUCED_MOTION[motionMode]">
     <div class="cf-layout relative flex min-h-screen flex-col">
       <slot name="layout-top" />
       <TopShadow />

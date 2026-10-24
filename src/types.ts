@@ -24,6 +24,12 @@ export interface ThemeConfig {
   lastUpdated?: { text?: string }
   editLink?: { pattern: string; text?: string }
   footer?: { message?: string; copyright?: string }
+  /**
+   * Animations. `'on'` (default) always animates, even when the reader's OS
+   * asks for reduced motion; `'system'` follows that OS setting; `'off'` never
+   * animates.
+   */
+  motion?: 'on' | 'system' | 'off'
 }
 
 export interface NavItem {

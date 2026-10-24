@@ -179,9 +179,12 @@ const placeholder = computed(() => theme.value.search?.options?.placeholder ?? '
     transform: translate(-50%, 4px) scale(0.98);
   }
 }
+/* themeConfig.motion: 'off' always stills them, 'system' defers to the OS. */
+:root[data-cf-motion='off'] :is(.cf-search-overlay, .cf-search-content) {
+  animation: none !important;
+}
 @media (prefers-reduced-motion: reduce) {
-  .cf-search-overlay,
-  .cf-search-content {
+  :root[data-cf-motion='system'] :is(.cf-search-overlay, .cf-search-content) {
     animation: none !important;
   }
 }

@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import { useData } from 'vitepress'
+import { shouldReduceMotion, useMotionMode } from './motion'
 
 let origin = { x: 0, y: 0 }
 
@@ -12,12 +13,13 @@ export function captureOrigin(e: MouseEvent) {
  * Flips the appearance with a circular reveal grown from the last pointer
  * position, ported from unlumen UI's `use-theme-transition`.
  *
- * Without the View Transitions API, with reduced motion, or on very wide
+ * Without the View Transitions API, with motion reduced (see `themeConfig.motion`), or on very wide
  * screens (a full-page snapshot there costs more than the effect is worth)
  * the flip is instant.
  */
 export function useThemeTransition() {
   const { isDark } = useData()
+  const mode = useMotionMode()
 
   const toggle = (e?: MouseEvent) => {
     if (e) captureOrigin(e)
@@ -27,7 +29,7 @@ export function useThemeTransition() {
       isDark.value = !isDark.value
       await nextTick()
     }
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduce = shouldReduceMotion(mode.value)
     if (!document.startViewTransition || reduce || window.innerWidth > 1800) {
       void apply()
       return

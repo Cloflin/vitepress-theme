@@ -8,7 +8,7 @@ description: An animated VitePress theme, adapted from unlumen UI Docs.
 
 ## Philosophy
 
-Every animation answers a question the reader has. The sidebar answers "where am I", the table of contents answers "how far through am I", and the search answers "where is it". Nothing moves for its own sake, and everything holds still when the reader asks for reduced motion.
+Every animation answers a question the reader has. The sidebar answers "where am I", the table of contents answers "how far through am I", and the search answers "where is it". Nothing moves for its own sake. Animations are on by default; set `themeConfig.motion` to `'system'` to follow the reader's OS setting, or to `'off'` to keep the page still.
 
 ## What is in the box
 

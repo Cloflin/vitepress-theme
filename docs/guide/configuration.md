@@ -51,6 +51,22 @@ Override `--cf-accent` to re-brand links, the active sidebar bar, list markers a
 }
 ```
 
+## Motion
+
+`motion` decides when the theme animates:
+
+| Value            | Behaviour                                                    |
+| ---------------- | ------------------------------------------------------------ |
+| `'on'` (default) | Always animates, even when the OS asks for reduced motion    |
+| `'system'`       | Follows the reader's "Reduce motion" setting                 |
+| `'off'`          | Never animates                                               |
+
+```ts
+themeConfig: {
+  motion: 'system',
+}
+```
+
 ## Frontmatter
 
 | Key           | Effect                                          |

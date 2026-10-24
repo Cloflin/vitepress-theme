@@ -6,7 +6,7 @@ An animated VitePress theme, adapted from [unlumen UI Docs](https://github.com/l
 - A table of contents whose thumb follows the current section.
 - Command-menu search over VitePress local search (<kbd>⌘K</kbd>, <kbd>/</kbd>).
 - A theme switch that reveals the new appearance in a circle from the click (<kbd>D</kbd>).
-- All motion stops when the reader asks for reduced motion.
+- Animations are on by default; `themeConfig.motion` can make them follow the OS setting (`'system'`) or turn them off (`'off'`).
 
 ## Install
 
