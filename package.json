@@ -4,6 +4,27 @@
   "description": "An animated VitePress theme: spring-driven sidebar, sliding table of contents, command-menu search, circular theme reveal.",
   "type": "module",
   "license": "MIT",
+  "author": "Cloflin",
+  "homepage": "https://github.com/Cloflin/vitepress-theme#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cloflin/vitepress-theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Cloflin/vitepress-theme/issues"
+  },
+  "keywords": [
+    "vitepress",
+    "vitepress-theme",
+    "vue",
+    "theme",
+    "documentation",
+    "motion",
+    "tailwindcss"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=20"
   },
