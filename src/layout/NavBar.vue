@@ -39,11 +39,12 @@ const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigat
 
 <template>
   <motion.header
-    class="fixed inset-x-0 top-0 z-50 flex h-16 w-full items-center gap-4 bg-background px-4 md:px-6"
+    class="fixed inset-x-0 top-0 z-50 flex h-16 w-full items-center gap-4 px-4 md:px-6"
     :initial="{ opacity: 0 }"
     :animate="{ opacity: 1 }"
     :transition="{ duration: 0.4, ease: 'easeOut' }"
   >
+    <div class="cf-navbar-blur" aria-hidden="true"><div v-for="i in 8" :key="i" /></div>
     <HoverHighlight class="flex flex-1 items-center gap-1">
       <a
         :href="withBase('/')"

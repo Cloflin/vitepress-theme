@@ -131,6 +131,54 @@
   }
 }
 
+/* ── Navbar: progressive blur ──────────────────────────────────────────── */
+@layer components {
+  /*
+   * After Porsche Design System's docs: eight stacked backdrop filters, each
+   * masked to one band, so content passing under the bar blurs hard at the
+   * top edge and barely at the bottom.
+   */
+  .cf-navbar-blur,
+  .cf-navbar-blur > div {
+    @apply pointer-events-none absolute inset-0;
+  }
+  .cf-navbar-blur {
+    z-index: -1;
+  }
+  .cf-navbar-blur > div:nth-child(1) {
+    backdrop-filter: blur(64px);
+    mask-image: linear-gradient(#000 25%, transparent 37.5%);
+  }
+  .cf-navbar-blur > div:nth-child(2) {
+    backdrop-filter: blur(32px);
+    mask-image: linear-gradient(transparent 12.5%, #000 25%, #000 37.5%, transparent 50%);
+  }
+  .cf-navbar-blur > div:nth-child(3) {
+    backdrop-filter: blur(16px);
+    mask-image: linear-gradient(transparent 25%, #000 37.5%, #000 50%, transparent 62.5%);
+  }
+  .cf-navbar-blur > div:nth-child(4) {
+    backdrop-filter: blur(8px);
+    mask-image: linear-gradient(transparent 37.5%, #000 50%, #000 62.5%, transparent 75%);
+  }
+  .cf-navbar-blur > div:nth-child(5) {
+    backdrop-filter: blur(4px);
+    mask-image: linear-gradient(transparent 50%, #000 62.5%, #000 75%, transparent 87.5%);
+  }
+  .cf-navbar-blur > div:nth-child(6) {
+    backdrop-filter: blur(2px);
+    mask-image: linear-gradient(transparent 62.5%, #000 75%, #000 87.5%, transparent);
+  }
+  .cf-navbar-blur > div:nth-child(7) {
+    backdrop-filter: blur(1px);
+    mask-image: linear-gradient(transparent 75%, #000 87.5%);
+  }
+  .cf-navbar-blur > div:nth-child(8) {
+    backdrop-filter: blur(0.5px);
+    mask-image: linear-gradient(transparent 87.5%, #000);
+  }
+}
+
 /* ── Markdown content ──────────────────────────────────────────────────── */
 @layer components {
   .cf-doc {

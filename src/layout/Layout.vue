@@ -26,7 +26,6 @@ import NavBar from './NavBar.vue'
 import Sidebar from './Sidebar.vue'
 import DocPage from './DocPage.vue'
 import Toc from './Toc.vue'
-import TopShadow from './TopShadow.vue'
 import MobileMenu from './MobileMenu.vue'
 import NotFound from './NotFound.vue'
 
@@ -66,7 +65,6 @@ watch(() => route.path, () => (menuOpen.value = false))
   <MotionConfig :reduced-motion="REDUCED_MOTION[motionMode]">
     <div class="cf-layout relative flex min-h-screen flex-col">
       <slot name="layout-top" />
-      <TopShadow />
 
       <NavBar :has-sidebar="showSidebar" :menu-open="menuOpen" @toggle-menu="menuOpen = !menuOpen">
         <template #nav-bar-content-before><slot name="nav-bar-content-before" /></template>
